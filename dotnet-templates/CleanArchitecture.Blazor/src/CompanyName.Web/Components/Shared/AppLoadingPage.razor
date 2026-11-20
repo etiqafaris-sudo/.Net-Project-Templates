@@ -1,0 +1,21 @@
+<div class="app-loading-page">
+    <AppLoadingIndicator MessageKey="@MessageKey"
+                         Message="@Message"
+                         Size="@Size"
+                         Centered="true"
+                         Class="@IndicatorClass" />
+</div>
+
+@code {
+    [Parameter]
+    public string? Message { get; set; }
+
+    [Parameter]
+    public string? MessageKey { get; set; }
+
+    [Parameter]
+    public AppLoadingSize Size { get; set; } = AppLoadingSize.Large;
+
+    [Parameter]
+    public string? IndicatorClass { get; set; }
+}

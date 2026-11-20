@@ -1,0 +1,1 @@
+<%@ Application Inherits="CompanyName.Api.WebApiApplication" Language="C#" %>

@@ -1,0 +1,95 @@
+@page "/settings"
+@using CompanyName.Web.Services
+@implements IDisposable
+@inject XmlLocalizationService L
+@inject ThemeService ThemeService
+@inject AppThemeService AppThemeService
+@inject NavigationManager UriHelper
+
+<PageTitle>@L.GetLangValue("lbl_settings")</PageTitle>
+
+<RadzenCard class="rz-my-12 rz-mx-auto" style="max-width: 600px">
+    <RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" class="rz-mb-4">@L.GetLangValue("lbl_settings")</RadzenText>
+    
+    <div class="row mb-4">
+        <div class="col-md-4 align-items-center d-flex">
+            <RadzenLabel Text="@L.GetLangValue("lbl_language")" />
+        </div>
+        <div class="col-md-8">
+            <RadzenDropDown Data="@languages" @bind-Value="selectedLanguage" TextProperty="Text" ValueProperty="Value" Style="width: 100%;" Change="@OnLanguageChange" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" />
+        </div>
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-md-4 align-items-center d-flex">
+            <RadzenLabel Text="@L.GetLangValue("lbl_theme")" />
+        </div>
+        <div class="col-md-8">
+            <RadzenDropDown Data="@themes" @bind-Value="selectedTheme" TextProperty="Text" ValueProperty="Value" Style="width: 100%;" Change="@OnThemeChange" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" />
+        </div>
+    </div>
+</RadzenCard>
+
+@code {
+    string selectedLanguage = "en";
+    string selectedTheme = "default";
+
+    IEnumerable<dynamic> languages = new List<dynamic>();
+    IEnumerable<dynamic> themes = new List<dynamic>();
+
+    protected override void OnInitialized()
+    {
+        selectedLanguage = L.CurrentCulture;
+        selectedTheme = AppThemeService.CurrentTheme;
+        if(string.IsNullOrEmpty(selectedTheme)) {
+            selectedTheme = "default";
+        }
+        
+        LoadDropdownData();
+        L.OnChange += ReloadDropdowns;
+    }
+    
+    public void Dispose()
+    {
+        L.OnChange -= ReloadDropdowns;
+    }
+
+    private void ReloadDropdowns()
+    {
+        LoadDropdownData();
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void LoadDropdownData()
+    {
+        languages = new[]
+        {
+            new { Text = "English", Value = "en" },
+            new { Text = "Bahasa Melayu", Value = "my" }
+        };
+
+        themes = new[]
+        {
+            new { Text = L.GetLangValue("lbl_light_mode"), Value = "default" },
+            new { Text = L.GetLangValue("lbl_dark_mode"), Value = "dark" }
+        };
+    }
+
+    async Task OnLanguageChange(object value)
+    {
+        if (value is string culture)
+        {
+            await L.SetCultureAsync(culture);
+            selectedLanguage = culture;
+        }
+    }
+
+    async Task OnThemeChange(object value)
+    {
+        if (value is string theme)
+        {
+            ThemeService.SetTheme(theme);
+            await AppThemeService.SetThemeAsync(theme);
+        }
+    }
+}

@@ -1,0 +1,10 @@
+.sample-loading-page-preview {
+    border: 1px dashed var(--rz-base-300, #dee2e6);
+    border-radius: var(--rz-border-radius, 4px);
+    background: var(--rz-base-50, #f8f9fa);
+    overflow: hidden;
+}
+
+.sample-loading-page-preview .app-loading-page {
+    min-height: 12rem;
+}

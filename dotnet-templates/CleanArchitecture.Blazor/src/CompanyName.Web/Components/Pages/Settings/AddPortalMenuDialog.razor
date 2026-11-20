@@ -1,0 +1,47 @@
+@using Radzen
+@using Radzen.Blazor
+@inherits AppComponentBase<GLPortalMenuDto>
+
+<EditForm Model="@Model" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+    
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <RadzenLabel Text="Menu Name" Component="MenuName" />
+            <RadzenTextBox @bind-Value="Model.MenuName" id="MenuName" Style="width: 100%;" />
+        </div>
+        
+        <div class="col-md-6 mb-3">
+            <RadzenLabel Text="Menu URL" Component="MenuUrl" />
+            <RadzenTextBox @bind-Value="Model.MenuUrl" id="MenuUrl" Style="width: 100%;" />
+        </div>
+        
+        <div class="col-md-6 mb-3">
+            <RadzenLabel Text="Icon (CSS Class)" Component="Icon" />
+            <RadzenTextBox @bind-Value="Model.Icon" id="Icon" Style="width: 100%;" />
+            <small class="text-muted">Example: bi bi-gear</small>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <RadzenLabel Text="Order No" Component="OrderNo" />
+            <RadzenNumeric @bind-Value="Model.OrderNo" id="OrderNo" Style="width: 100%;" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <RadzenLabel Text="Parent Menu" Component="ParentId" />
+            <RadzenDropDown @bind-Value="Model.ParentId" Data="@parentMenus" TextProperty="MenuName" ValueProperty="Id" AllowClear="true" Placeholder="Select Parent Menu..." Style="width: 100%;" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" />
+        </div>
+
+        <div class="col-md-6 mb-3 d-flex align-items-center">
+             <RadzenLabel Text="Is Active" Component="IsActiveCheckbox" class="me-2" />
+             <RadzenSwitch @bind-Value="IsActiveBool" id="IsActiveCheckbox" />
+        </div>
+    </div>
+    
+    <div class="row mt-3">
+        <div class="col-md-12 text-right">
+            <RadzenButton ButtonType="ButtonType.Submit" Text="Save" Style="width: 120px" />
+            <RadzenButton Click="@((args) => DialogService.Close(false))" ButtonStyle="ButtonStyle.Light" Text="Cancel" Style="width: 120px" Class="me-1" />
+        </div>
+    </div>
+</EditForm>

@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Faris",
+  "classifications": [ "Web", "Web API", "Clean Architecture", "EF6", ".NET Framework" ],
+  "identity": "CleanArchiecture.WebApi.NetF",
+  "name": "Clean Architecture Web API (.NET Framework 4.8) by Faris Jaafar",
+  "shortName": "ant-ca-webapi-netf",
+  "sourceName": "CompanyName",
+  "preferNameDirectory": true,
+  "tags": {
+    "language": "C#",
+    "type": "solution"
+  },
+  "symbols": {
+    "AppDbContextName": {
+      "type": "generated",
+      "generator": "regex",
+      "parameters": {
+        "source": "name",
+        "steps": [
+          { "regex": "\\.", "replacement": "" },
+          { "regex": "$", "replacement": "DbContext" }
+        ]
+      },
+      "replaces": "TemplateDbContext"
+    },
+    "DatabaseName": {
+      "type": "generated",
+      "generator": "regex",
+      "parameters": {
+        "source": "name",
+        "steps": [
+          { "regex": "\\.", "replacement": "" }
+        ]
+      },
+      "replaces": "TemplateDatabase"
+    },
+    "Framework": {
+      "type": "parameter",
+      "description": "The target framework for the projects.",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "net48",
+          "description": "Target .NET Framework 4.8"
+        }
+      ],
+      "replaces": "net48",
+      "defaultValue": "net48"
+    }
+  }
+}

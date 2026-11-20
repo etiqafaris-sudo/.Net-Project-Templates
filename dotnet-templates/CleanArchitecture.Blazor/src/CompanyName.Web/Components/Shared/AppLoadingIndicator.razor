@@ -1,0 +1,69 @@
+<div class="@RootClass"
+     role="status"
+     aria-live="polite"
+     aria-busy="true"
+     @attributes="AdditionalAttributes">
+    <RadzenProgressBarCircular ShowValue="false"
+                               Mode="ProgressBarMode.Indeterminate"
+                               Size="@ProgressSize"
+                               AriaLabel="@AriaLabel" />
+    @if (ShowMessage)
+    {
+        <RadzenText TextStyle="@MessageTextStyle"
+                    TagName="TagName.P"
+                    class="app-loading__message rz-mb-0">
+            @DisplayMessage
+        </RadzenText>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string? Message { get; set; }
+
+    [Parameter]
+    public string? MessageKey { get; set; }
+
+    [Parameter]
+    public AppLoadingSize Size { get; set; } = AppLoadingSize.Medium;
+
+    [Parameter]
+    public bool Centered { get; set; } = true;
+
+    [Parameter]
+    public bool ShowMessage { get; set; } = true;
+
+    [Parameter]
+    public TextStyle MessageTextStyle { get; set; } = TextStyle.Subtitle1;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string DisplayMessage =>
+        !string.IsNullOrWhiteSpace(Message)
+            ? Message
+            : L.GetLangValue(string.IsNullOrWhiteSpace(MessageKey) ? "lbl_loading" : MessageKey);
+
+    private string AriaLabel => DisplayMessage;
+
+    private ProgressBarCircularSize ProgressSize => Size switch
+    {
+        AppLoadingSize.Small => ProgressBarCircularSize.Small,
+        AppLoadingSize.Large => ProgressBarCircularSize.Large,
+        _ => ProgressBarCircularSize.Medium
+    };
+
+    private string RootClass
+    {
+        get
+        {
+            var layoutClass = Centered ? "app-loading--centered" : "app-loading--inline";
+            return string.IsNullOrWhiteSpace(Class)
+                ? $"app-loading {layoutClass}"
+                : $"app-loading {layoutClass} {Class}";
+        }
+    }
+}

@@ -1,0 +1,34 @@
+@page "/profile"
+@using CompanyName.Web.Services
+@inject XmlLocalizationService L
+
+<PageTitle>@L.GetLangValue("lbl_profile")</PageTitle>
+
+<RadzenCard class="rz-my-12 rz-mx-auto" style="max-width: 600px">
+    <RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" class="rz-mb-4">@L.GetLangValue("lbl_profile")</RadzenText>
+    
+    <div class="row mb-3">
+        <div class="col-md-4 align-items-center d-flex">
+            <RadzenLabel Text="Name" />
+        </div>
+        <div class="col-md-8">
+            <RadzenTextBox style="width: 100%;" Name="Name" Value="User" ReadOnly="true"/>
+        </div>
+    </div>
+    
+    <div class="row mb-3">
+        <div class="col-md-4 align-items-center d-flex">
+            <RadzenLabel Text="Email" />
+        </div>
+        <div class="col-md-8">
+            <RadzenTextBox style="width: 100%;" Name="Email" Value="user@example.com" ReadOnly="true" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col offset-md-4 text-left">
+            <RadzenButton ButtonType="ButtonType.Submit" Text="Update" ButtonStyle="ButtonStyle.Primary" class="mr-2" />
+            <RadzenButton ButtonType="ButtonType.Button" Text="Cancel" ButtonStyle="ButtonStyle.Light" class="mr-2" />
+        </div>
+    </div>
+</RadzenCard>

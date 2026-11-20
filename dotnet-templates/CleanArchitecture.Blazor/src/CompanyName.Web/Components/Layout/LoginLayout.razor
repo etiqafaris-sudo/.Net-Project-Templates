@@ -1,0 +1,139 @@
+@inherits LayoutComponentBase
+@using CompanyName.Web.Services
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.WebUtilities
+@inject XmlLocalizationService L
+@inject AppThemeService ThemeState
+@inject NavigationManager Navigation
+@inject BrowserNavigationService BrowserNavigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@implements IDisposable
+
+<RadzenTheme Theme="@ThemeState.CurrentTheme" />
+
+<div class="login-layout">
+    <header class="login-layout__header">
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.75rem" Wrap="FlexWrap.Wrap" class="login-layout__header-inner">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.75rem" class="login-layout__brand">
+                <img src="/images/logo.png" alt="@L.GetLangValue("lbl_app_logo_alt")" class="login-layout__logo" />
+                <RadzenText TextStyle="TextStyle.Subtitle1" TagName="TagName.Span" class="login-layout__app-name">
+                    @L.GetLangValue("lbl_app_name")
+                </RadzenText>
+            </RadzenStack>
+            <div class="login-layout__actions">
+                <LanguageSwitcher />
+            </div>
+        </RadzenStack>
+    </header>
+
+    <main class="login-layout__main">
+        <div class="login-layout__content">
+            @if (_isRedirecting)
+            {
+                <AppLoadingIndicator MessageKey="lbl_login_redirecting" Size="AppLoadingSize.Large" />
+            }
+            else if (!_isContentReady)
+            {
+                <AppLoadingIndicator MessageKey="lbl_login_loading" Size="AppLoadingSize.Large" />
+            }
+            else
+            {
+                @Body
+            }
+        </div>
+    </main>
+</div>
+
+<RadzenComponents />
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        L.OnChange += StateHasChanged;
+        ThemeState.OnChange += StateHasChanged;
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        if (authState.User.Identity?.IsAuthenticated == true)
+        {
+            _isRedirecting = true;
+            _authenticatedRedirectUrl = GetAuthenticatedRedirectUrl();
+        }
+    }
+
+    private bool _isRedirecting;
+    private bool _isContentReady;
+    private string? _authenticatedRedirectUrl;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        if (_isRedirecting && _authenticatedRedirectUrl is not null)
+        {
+            await BrowserNavigation.ForceNavigateAsync(_authenticatedRedirectUrl);
+            return;
+        }
+
+        await ThemeState.InitializeAsync();
+        await L.InitializeAsync();
+        _isContentReady = true;
+        StateHasChanged();
+    }
+
+    private string GetAuthenticatedRedirectUrl()
+    {
+        var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("returnUrl", out var returnUrlValues))
+        {
+            var returnUrl = returnUrlValues.ToString();
+            if (IsLocalUrl(returnUrl))
+            {
+                var path = NormalizeLocalUrl(returnUrl);
+                if (!IsLoginPath(path))
+                {
+                    return path;
+                }
+            }
+        }
+
+        return "/dashboard";
+    }
+
+    private static bool IsLocalUrl(string url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+        {
+            return false;
+        }
+
+        return !url.StartsWith("//", StringComparison.Ordinal)
+            && !url.Contains("://", StringComparison.Ordinal);
+    }
+
+    private static string NormalizeLocalUrl(string url)
+    {
+        url = url.Trim();
+        return url.StartsWith('/') ? url : $"/{url}";
+    }
+
+    private static bool IsLoginPath(string path)
+    {
+        return path.Equals("/", StringComparison.OrdinalIgnoreCase)
+            || path.Equals("/login", StringComparison.OrdinalIgnoreCase);
+    }
+
+    public void Dispose()
+    {
+        L.OnChange -= StateHasChanged;
+        ThemeState.OnChange -= StateHasChanged;
+    }
+}

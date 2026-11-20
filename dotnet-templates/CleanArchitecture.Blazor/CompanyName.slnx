@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="docker-compose.yml" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Solution Items/Lib/">
+    <File Path="lib/IBM.Data.Informix.dll" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/CompanyName.Application/CompanyName.Application.csproj" />
+    <Project Path="src/CompanyName.Domain/CompanyName.Domain.csproj" />
+    <Project Path="src/CompanyName.Infrastructure/CompanyName.Infrastructure.csproj" />
+    <Project Path="src/CompanyName.Shared/CompanyName.Shared.csproj" />
+    <Project Path="src/CompanyName.Web/CompanyName.Web.csproj" />
+  </Folder>
+</Solution>

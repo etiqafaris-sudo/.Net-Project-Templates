@@ -1,0 +1,50 @@
+@using Radzen
+@using Radzen.Blazor
+@inherits AppComponentBase<GlParameterDto>
+
+<RadzenTemplateForm Data="@Model" Submit="@((GlParameterDto args) => Submit(args))">
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <RadzenLabel Text="@L.GetLangValue("lbl_col_param_id")" />
+        </div>
+        <div class="col-md-8">
+            <RadzenTextBox style="width: 100%;" Name="ParameterId" @bind-Value="Model.ParameterId" />
+            <RadzenRequiredValidator Component="ParameterId" Text="@L.GetLangValue("lbl_req_param_id")" />
+        </div>
+    </div>
+    
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <RadzenLabel Text="@L.GetLangValue("lbl_col_description")" />
+        </div>
+        <div class="col-md-8">
+            <RadzenTextBox style="width: 100%;" Name="ParameterDescription" @bind-Value="Model.ParameterDescription" />
+            <RadzenRequiredValidator Component="ParameterDescription" Text="@L.GetLangValue("lbl_req_description")" />
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <RadzenLabel Text="@L.GetLangValue("lbl_col_desc_en")" />
+        </div>
+        <div class="col-md-8">
+            <RadzenTextBox style="width: 100%;" Name="ParameterDescriptionEn" @bind-Value="Model.ParameterDescriptionEn" />
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <RadzenLabel Text="@L.GetLangValue("lbl_col_sort")" />
+        </div>
+        <div class="col-md-8">
+            <RadzenNumeric style="width: 100%;" Name="Sort" @bind-Value="Model.Sort" />
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12 text-end">
+            <RadzenButton ButtonType="ButtonType.Submit" Icon="add" Text="@L.GetLangValue("lbl_btn_add_child")" ButtonStyle="ButtonStyle.Primary" class="me-2" />
+            <RadzenButton ButtonType="ButtonType.Button" Icon="cancel" Text="@L.GetLangValue("lbl_btn_cancel")" ButtonStyle="ButtonStyle.Light" Click="@Cancel" />
+        </div>
+    </div>
+</RadzenTemplateForm>

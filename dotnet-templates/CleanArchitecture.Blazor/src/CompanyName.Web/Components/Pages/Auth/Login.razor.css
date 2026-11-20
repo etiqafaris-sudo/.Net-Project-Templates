@@ -1,0 +1,21 @@
+.login-card {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.login-card ::deep .rz-textbox,
+.login-card ::deep .rz-password {
+    width: 100%;
+}
+
+.login-card ::deep input.rz-textbox,
+.login-card ::deep .rz-password input {
+    min-height: 2.75rem;
+    font-size: 1rem;
+}
+
+.login-card ::deep .rz-button {
+    min-height: 2.75rem;
+    font-size: 1rem;
+}

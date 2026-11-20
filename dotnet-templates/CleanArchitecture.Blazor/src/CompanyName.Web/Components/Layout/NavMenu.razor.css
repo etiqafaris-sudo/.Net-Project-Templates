@@ -1,0 +1,28 @@
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+}
+
+.nav-menu ::deep .rz-panel-menu {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-inline-end: none;
+}
+
+.nav-menu__brand-link {
+    display: inline-flex;
+    text-decoration: none;
+}
+
+.nav-menu__logo {
+    max-width: 7rem;
+    max-height: 4rem;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}

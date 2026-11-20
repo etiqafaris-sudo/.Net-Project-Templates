@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Faris",
+  "classifications": [ "Web", "Web API", "Minimal API", "Clean Architecture", "EF Core" ],
+  "identity": "CleanArchiecture.WebApi.NetCore",
+  "name": "Clean Architecture Web API (.NET) by Faris Jaafar",
+  "shortName": "ant-ca-webapi",
+  "sourceName": "CompanyName",
+  "preferNameDirectory": true,
+  "tags": {
+    "language": "C#",
+    "type": "solution"
+  },
+  "symbols": {
+    "AppDbContextName": {
+      "type": "generated",
+      "generator": "regex",
+      "parameters": {
+        "source": "name",
+        "steps": [
+          { "regex": "\\.", "replacement": "" },
+          { "regex": "$", "replacement": "DbContext" }
+        ]
+      },
+      "replaces": "TemplateDbContext"
+    },
+    "DatabaseName": {
+      "type": "generated",
+      "generator": "regex",
+      "parameters": {
+        "source": "name",
+        "steps": [
+          { "regex": "\\.", "replacement": "" }
+        ]
+      },
+      "replaces": "TemplateDatabase"
+    },
+    "Framework": {
+      "type": "parameter",
+      "description": "The target framework for the projects.",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "net10.0",
+          "description": "Target .NET 10"
+        }
+      ],
+      "replaces": "net10.0",
+      "defaultValue": "net10.0"
+    }
+  }
+}

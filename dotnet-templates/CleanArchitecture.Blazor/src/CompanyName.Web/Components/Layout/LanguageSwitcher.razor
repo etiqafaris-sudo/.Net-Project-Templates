@@ -1,0 +1,53 @@
+@using CompanyName.Web.Services
+@inject XmlLocalizationService Localizer
+@implements IDisposable
+
+<RadzenStack Orientation="Orientation.Horizontal" Gap="0.35rem" AlignItems="AlignItems.Center" class="language-switcher">
+    <RadzenButton Text="En"
+                  ButtonStyle="@GetButtonStyle("en")"
+                  Variant="@GetVariant("en")"
+                  Size="ButtonSize.Small"
+                  Shade="Shade.Default"
+                  aria-pressed="@IsActive("en")"
+                  Click="@(async () => await ChangeLanguage("en"))" />
+    <RadzenButton Text="My"
+                  ButtonStyle="@GetButtonStyle("my")"
+                  Variant="@GetVariant("my")"
+                  Size="ButtonSize.Small"
+                  Shade="Shade.Default"
+                  aria-pressed="@IsActive("my")"
+                  Click="@(async () => await ChangeLanguage("my"))" />
+</RadzenStack>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Localizer.OnChange += OnCultureChanged;
+    }
+
+    private void OnCultureChanged() => _ = InvokeAsync(StateHasChanged);
+
+    private bool IsActive(string culture) =>
+        string.Equals(Localizer.CurrentCulture, culture, StringComparison.OrdinalIgnoreCase);
+
+    private ButtonStyle GetButtonStyle(string culture) =>
+        IsActive(culture) ? ButtonStyle.Primary : ButtonStyle.Secondary;
+
+    private Variant GetVariant(string culture) =>
+        IsActive(culture) ? Variant.Filled : Variant.Outlined;
+
+    private async Task ChangeLanguage(string culture)
+    {
+        if (IsActive(culture))
+        {
+            return;
+        }
+
+        await Localizer.SetCultureAsync(culture);
+    }
+
+    public void Dispose()
+    {
+        Localizer.OnChange -= OnCultureChanged;
+    }
+}

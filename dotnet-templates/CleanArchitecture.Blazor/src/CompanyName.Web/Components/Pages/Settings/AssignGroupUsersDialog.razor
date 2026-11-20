@@ -1,0 +1,46 @@
+@using CompanyName.Web.Models.Users
+@using Radzen
+@using Radzen.Blazor
+@inherits AppComponentBase<UserDto>
+
+<div class="row mb-3">
+    <div class="col-12">
+        <RadzenText TextStyle="TextStyle.Subtitle1">Select the users to assign to this group.</RadzenText>
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="@L.GetLangValue("lbl_search")" @bind-Value="searchText" @oninput="OnSearch" Style="width: 100%;" />
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        @if (allUsers.Any())
+        {
+            <RadzenListBox @bind-Value="selectedUserIds" Data="@filteredUsers" TextProperty="Fullname" ValueProperty="Id" Multiple="true" AllowClear="true" Style="width: 100%; height: 300px;">
+                <Template>
+                    @{
+                        var user = context as UserDto;
+                    }
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-person me-2"></i>
+                        @user?.Fullname (@user?.Email)
+                    </div>
+                </Template>
+            </RadzenListBox>
+        }
+        else
+        {
+            <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 text-right">
+        <RadzenButton Click="OnSubmit" Text="Save" Style="width: 120px" class="me-1" ButtonStyle="ButtonStyle.Primary" />
+        <RadzenButton Click="@((args) => DialogService.Close(false))" ButtonStyle="ButtonStyle.Light" Text="Cancel" Style="width: 120px" />
+    </div>
+</div>

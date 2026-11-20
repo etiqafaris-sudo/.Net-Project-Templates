@@ -1,0 +1,19 @@
+@page "/logout"
+@using CompanyName.Web.Services
+@inject BrowserNavigationService BrowserNavigation
+@inject UserStateService UserState
+
+<PageTitle>Logout</PageTitle>
+
+<AppLoadingPage MessageKey="lbl_logging_out" />
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            UserState.ClearUser();
+            await BrowserNavigation.ForceNavigateAsync("/api/auth/logout");
+        }
+    }
+}

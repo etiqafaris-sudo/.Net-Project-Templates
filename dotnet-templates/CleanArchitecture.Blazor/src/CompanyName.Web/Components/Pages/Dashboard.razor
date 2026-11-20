@@ -1,0 +1,165 @@
+@page "/dashboard"
+@inherits AppComponentBase<object>
+
+<div class="dashboard-page pb-4">
+    <header class="dashboard-page__header">
+        <div class="dashboard-page__intro">
+            <h2 class="dashboard-page__title">Overall Application</h2>
+            <p class="dashboard-page__subtitle mb-0">
+                @TotalOverallApplications.ToString("N0") applications total
+            </p>
+        </div>
+        <div class="dashboard-page__export">
+            <span class="dashboard-page__export-label">Export</span>
+            <div class="dashboard-page__export-actions">
+                <RadzenButton Text="PDF" Click="@OnExportPdf" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Small" class="dashboard-page__export-btn dashboard-page__export-btn--light" />
+                <RadzenButton Text="Excel" Click="@OnExportExcel" ButtonStyle="ButtonStyle.Dark" Size="ButtonSize.Small" class="dashboard-page__export-btn" />
+                <RadzenButton Text="Word" Click="@OnExportWord" ButtonStyle="ButtonStyle.Dark" Size="ButtonSize.Small" class="dashboard-page__export-btn" />
+                <RadzenButton Text="CSV" Click="@OnExportCsv" ButtonStyle="ButtonStyle.Dark" Size="ButtonSize.Small" class="dashboard-page__export-btn" />
+            </div>
+        </div>
+    </header>
+
+    <div class="row g-4 mb-4">
+        <div class="col-lg-8">
+            <RadzenCard class="dashboard-card h-100">
+                <div class="row g-0">
+                    <div id="State-by-Application" class="col-md-7 dashboard-card__section dashboard-card__section--map">
+                        <h6 class="dashboard-card__heading">State by Application</h6>
+                        <div class="dashboard-map">
+                            <img src="/images/map-placeholder.svg"
+                                 alt="Malaysia map"
+                                 class="dashboard-map__image"
+                                 onerror="this.style.display='none'; this.nextElementSibling?.classList.add('dashboard-map__fallback--visible');" />
+                            <div class="dashboard-map__fallback">Map preview</div>
+                        </div>
+                        <div class="dashboard-state-legend" role="list" aria-label="States">
+                            <span class="dashboard-state-legend__hint">Select a state</span>
+                            @foreach (var label in new[] { "All", "Selangor", "Kuala Lumpur", "Perak", "Negeri Sembilan", "Johor", "Kelantan", "Melaka" })
+                            {
+                                <button type="button" class="dashboard-state-legend__chip @(label == "All" ? "dashboard-state-legend__chip--active" : null)">@label</button>
+                            }
+                        </div>
+                    </div>
+
+                    <div id="top-higher-patients" class="col-md-5 dashboard-card__section dashboard-card__section--stats">
+                        <h6 class="dashboard-card__heading">Top Higher Patients</h6>
+                        <div class="dashboard-state-list">
+                            @foreach (var state in TopStates)
+                            {
+                                <div class="dashboard-state-list__item">
+                                    <div class="dashboard-state-list__row">
+                                        <span class="dashboard-state-list__name" style="color: @state.Color;">@state.State</span>
+                                        <span class="dashboard-state-list__value" style="color: @state.Color;">@state.DisplayValue</span>
+                                    </div>
+                                    <RadzenProgressBar Value="@state.Percent" ShowValue="false" class="dashboard-state-list__bar" Style="@($"--rz-progressbar-value-background: {state.Color};")" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </RadzenCard>
+        </div>
+
+        <div id="Notification" class="col-lg-4">
+            <RadzenCard class="dashboard-card dashboard-card--notifications h-100">
+                <div class="dashboard-card__toolbar">
+                    <h6 class="dashboard-card__heading m-0">
+                        <RadzenIcon Icon="notifications" class="me-1" /> Notification
+                    </h6>
+                    <span class="dashboard-card__meta">Today</span>
+                </div>
+
+                <div class="dashboard-notifications">
+                    @foreach (var note in Notifications)
+                    {
+                        <article class="dashboard-notifications__item">
+                            <div class="dashboard-notifications__icon" aria-hidden="true">
+                                <RadzenIcon Icon="chat_bubble_outline" />
+                            </div>
+                            <div class="dashboard-notifications__content">
+                                <p class="dashboard-notifications__title mb-0">@note.Name</p>
+                                <p class="dashboard-notifications__action mb-0">@note.Action</p>
+                                <p class="dashboard-notifications__subtitle mb-0">@note.Subtitle</p>
+                                <time class="dashboard-notifications__date">@note.Date</time>
+                            </div>
+                        </article>
+                    }
+                </div>
+            </RadzenCard>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div id="Application-type" class="col-lg-8">
+            <RadzenCard class="dashboard-card dashboard-card--chart">
+                <div class="dashboard-chart-header">
+                    <div class="dashboard-chart-header__main">
+                        <h6 class="dashboard-card__heading m-0">Application Type</h6>
+                        <div class="dashboard-chart-header__metrics">
+                            <span class="dashboard-metric dashboard-metric--primary">
+                                <RadzenIcon Icon="schedule" /> 224,763
+                            </span>
+                            <span class="dashboard-metric dashboard-metric--up">+1,526</span>
+                        </div>
+                    </div>
+                    <div class="dashboard-chart-header__aside">
+                        <RadzenButton Text="See details" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Small" class="dashboard-btn-outline mb-2 mb-lg-0" />
+                        <ul class="dashboard-legend dashboard-legend--wrap">
+                            <li><span class="dashboard-legend__dot" style="background:#3b82f6;"></span> Pasar Raya</li>
+                            <li><span class="dashboard-legend__dot" style="background:#60a5fa;"></span> Ejen</li>
+                            <li><span class="dashboard-legend__dot" style="background:#bef264;"></span> Peniaga</li>
+                            <li><span class="dashboard-legend__dot" style="background:#fde047;"></span> Penjaja</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="dashboard-chart">
+                    <RadzenChart ColorScheme="ColorScheme.Palette" Style="width: 100%; height: 100%;">
+                        <RadzenColumnSeries Data="@ApplicationTypes" CategoryProperty="Month" Title="Pasar Raya" LineType="LineType.Dashed" ValueProperty="PasarRaya" Fills=@(new[] { "#3b82f6" }) />
+                        <RadzenColumnSeries Data="@ApplicationTypes" CategoryProperty="Month" Title="Ejen" LineType="LineType.Dashed" ValueProperty="Ejen" Fills=@(new[] { "#60a5fa" }) />
+                        <RadzenColumnSeries Data="@ApplicationTypes" CategoryProperty="Month" Title="Peniaga" LineType="LineType.Dashed" ValueProperty="Peniaga" Fills=@(new[] { "#bef264" }) />
+                        <RadzenColumnSeries Data="@ApplicationTypes" CategoryProperty="Month" Title="Penjaja" LineType="LineType.Dashed" ValueProperty="Penjaja" Fills=@(new[] { "#fde047" }) />
+                        <RadzenColumnOptions Radius="4" Margin="10" />
+                        <RadzenValueAxis Min="0" Max="400" Step="100">
+                            <RadzenGridLines Visible="true" Stroke="#f1f5f9" LineType="LineType.Dashed" />
+                        </RadzenValueAxis>
+                        <RadzenCategoryAxis Padding="12">
+                            <RadzenGridLines Visible="false" />
+                        </RadzenCategoryAxis>
+                        <RadzenLegend Visible="false" />
+                    </RadzenChart>
+                </div>
+            </RadzenCard>
+        </div>
+
+        <div id="Top-Application" class="col-lg-4">
+            <RadzenCard class="dashboard-card h-100">
+                <div class="dashboard-chart-header dashboard-chart-header--compact">
+                    <div class="dashboard-chart-header__title-row">
+                        <h6 class="dashboard-card__heading m-0">Top Application</h6>
+                        <RadzenButton Text="See details" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Small" class="dashboard-btn-outline flex-shrink-0" />
+                    </div>
+                    <div class="dashboard-chart-header__metrics dashboard-chart-header__metrics--large">
+                        <span class="dashboard-top-app__count">14,521</span>
+                        <span class="dashboard-metric dashboard-metric--up">+215</span>
+                    </div>
+                </div>
+
+                <div class="dashboard-top-app">
+                    <div class="dashboard-top-app__bar" role="img" aria-label="40% Tahun Baru Cina, 60% other">
+                        <span class="dashboard-top-app__segment dashboard-top-app__segment--primary" style="width: 40%;"></span>
+                        <span class="dashboard-top-app__segment dashboard-top-app__segment--secondary" style="width: 60%;"></span>
+                    </div>
+                    <div class="dashboard-top-app__footer">
+                        <span class="dashboard-top-app__label">
+                            <span class="dashboard-legend__dot" style="background:#3b82f6;"></span>
+                            Tahun Baru Cina
+                        </span>
+                        <span class="dashboard-top-app__percent">40%</span>
+                    </div>
+                </div>
+            </RadzenCard>
+        </div>
+    </div>
+</div>

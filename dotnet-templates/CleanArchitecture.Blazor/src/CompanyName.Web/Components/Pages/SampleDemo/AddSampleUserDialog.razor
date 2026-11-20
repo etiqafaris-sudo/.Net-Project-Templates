@@ -1,0 +1,31 @@
+@using Radzen
+@using Radzen.Blazor
+@inject DialogService DialogService
+
+<RadzenTemplateForm Data="@model" Submit="@(async (AddSampleUserDialog.SampleUserFormModel args) => { await OnSubmit(args); })">
+    <div class="row align-items-center mb-3">
+        <div class="col-md-3">
+            <RadzenLabel Text="@L.GetLangValue("lbl_col_fullname")" />
+        </div>
+        <div class="col-md-9">
+            <RadzenTextBox style="width: 100%;" Name="Name" @bind-Value="model.Name" Required="true" />
+            <RadzenRequiredValidator Component="Name" Text="@L.GetLangValue("lbl_req_fullname")" Style="display: block; font-size: 0.8rem; margin-top: 4px;" />
+        </div>
+    </div>
+    <div class="row align-items-center mb-3">
+        <div class="col-md-3">
+            <RadzenLabel Text="@L.GetLangValue("lbl_email")" />
+        </div>
+        <div class="col-md-9">
+            <RadzenTextBox style="width: 100%;" Name="Email" @bind-Value="model.Email" Required="true" />
+            <RadzenRequiredValidator Component="Email" Text="@L.GetLangValue("lbl_req_email")" Style="display: block; font-size: 0.8rem; margin-top: 4px;" />
+            <RadzenEmailValidator Component="Email" Text="@L.GetLangValue("lbl_invalid_email")" Style="display: block; font-size: 0.8rem; margin-top: 4px;" />
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-12 d-flex align-items-end justify-content-center" style="margin-top: 16px;">
+            <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="@L.GetLangValue("lbl_btn_save")" />
+            <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text="@L.GetLangValue("lbl_btn_cancel")" Click="@Cancel" />
+        </div>
+    </div>
+</RadzenTemplateForm>

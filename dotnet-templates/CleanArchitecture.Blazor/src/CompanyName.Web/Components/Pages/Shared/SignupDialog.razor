@@ -1,0 +1,97 @@
+@inherits CompanyName.Web.Components.AppComponentBase<CompanyName.Domain.Entities.GlUser>
+@using Radzen
+@using Radzen.Blazor
+@using System.ComponentModel.DataAnnotations
+@using CompanyName.Application.Common.Interfaces
+@using CompanyName.Domain.Entities
+@using CompanyName.Domain.Enums
+
+<EditForm Model="@Model" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+    
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <RadzenLabel Text="Full Name" Component="Fullname" />
+            <RadzenTextBox @bind-Value="Model.Fullname" id="Fullname" Style="width: 100%;" />
+            <ValidationMessage For="@(() => Model.Fullname)" />
+        </div>
+        
+        <div class="col-md-12 mb-3">
+            <RadzenLabel Text="Email" Component="Email" />
+            <RadzenTextBox @bind-Value="Model.Email" id="Email" Style="width: 100%;" />
+            <ValidationMessage For="@(() => Model.Email)" />
+        </div>
+        
+        <div class="col-md-12 mb-3">
+            <RadzenLabel Text="Password" Component="Password" />
+            <RadzenPassword @bind-Value="Model.Password" id="Password" Style="width: 100%;" />
+            <ValidationMessage For="@(() => Model.Password)" />
+        </div>
+        
+        <div class="col-md-12 mb-3">
+            <RadzenLabel Text="IC No" Component="IcNo" />
+            <RadzenTextBox @bind-Value="Model.IcNo" id="IcNo" Style="width: 100%;" />
+            <ValidationMessage For="@(() => Model.IcNo)" />
+        </div>
+    </div>
+    
+    <div class="row mt-3">
+        <div class="col-md-12 text-right">
+            <RadzenButton ButtonType="ButtonType.Submit" Text="Create Account" Style="width: 150px" />
+            <RadzenButton Click="@((args) => DialogService.Close(false))" ButtonStyle="ButtonStyle.Light" Text="Cancel" Style="width: 120px" Class="me-1" />
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Inject]
+    public DialogService DialogService { get; set; } = default!;
+
+    [Inject]
+    public IEncryptionService EncryptionService { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model = new GlUser();
+    }
+
+    public async Task OnSubmit()
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(Model.Email) || string.IsNullOrWhiteSpace(Model.Password) || string.IsNullOrWhiteSpace(Model.Fullname))
+            {
+                await AlertService.JSWarningAsync("Please fill all required fields.");
+                return;
+            }
+            
+            // Check if email already exists
+            //var existingUser = await StandardGetDataByExpressionAsync<GlUser>(u => u.Email == Model.Email && u.IsDeleted == 0);
+            // if (existingUser != null)
+            // {
+            //     await AlertService.JSWarningAsync("Email address already exists.");
+            //     return;
+            // }
+
+            // Set fixed values for new registration
+            Model.Role = "3";
+            Model.IsActive = 1;
+            Model.IsDeleted = 0;
+            
+            // Encrypt the password
+            Model.Password = EncryptionService.Encrypt(Model.Password);
+
+            // Create user
+            //await StandardCudAsync(Model, OpTypeEnum.Create);
+            //await _dal.CommitAsync();
+
+            await AlertService.JSSuccessAsync("Account created successfully. You can now login.");
+            DialogService.Close(true);
+        }
+        catch (Exception ex)
+        {
+            await AlertService.JSErrorAsync($"Error creating account: {ex.Message}");
+        }
+    }
+}

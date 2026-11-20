@@ -1,0 +1,11 @@
+.app-loading-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: var(--app-loading-overlay-z-index, 5000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--app-loading-overlay-background, color-mix(in srgb, var(--rz-body-background-color, #ffffff) 70%, transparent));
+    backdrop-filter: blur(var(--app-loading-overlay-blur, 2px));
+    pointer-events: all;
+}

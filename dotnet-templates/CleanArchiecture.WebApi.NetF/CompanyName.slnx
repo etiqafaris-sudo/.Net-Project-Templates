@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="ARCHITECTURE.md" />
+    <File Path="docker-compose.yml" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/CompanyName.Api/CompanyName.Api.csproj" />
+    <Project Path="src/CompanyName.Application/CompanyName.Application.csproj" />
+    <Project Path="src/CompanyName.Domain/CompanyName.Domain.csproj" />
+    <Project Path="src/CompanyName.Infrastructure/CompanyName.Infrastructure.csproj" />
+    <Project Path="src/CompanyName.Shared/CompanyName.Shared.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,15 @@
+.language-switcher ::deep .rz-button.rz-button-sm {
+    min-width: 2.75rem;
+    font-weight: 600;
+}
+
+.language-switcher ::deep .rz-button.rz-button-outlined {
+    border-color: var(--rz-base-400, #9e9e9e);
+    color: var(--rz-text-color, #424242);
+}
+
+.language-switcher ::deep .rz-button.rz-button-outlined:not(.rz-state-disabled):hover {
+    border-color: var(--rz-primary, #ff6d00);
+    color: var(--rz-primary, #ff6d00);
+    background-color: var(--rz-base-100, rgba(0, 0, 0, 0.04));
+}

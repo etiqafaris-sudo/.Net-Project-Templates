@@ -1,0 +1,30 @@
+@inject LoadingIndicatorService Loading
+@implements IDisposable
+
+@if (Loading.IsVisible)
+{
+    <div class="app-loading-overlay"
+         role="status"
+         aria-live="polite"
+         aria-busy="true">
+        <AppLoadingIndicator Message="@Loading.Message"
+                             MessageKey="@Loading.MessageKey"
+                             Size="AppLoadingSize.Large"
+                             Centered="true"
+                             Class="app-loading--overlay" />
+    </div>
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        Loading.OnChange += OnLoadingChanged;
+    }
+
+    private void OnLoadingChanged() => InvokeAsync(StateHasChanged);
+
+    public void Dispose()
+    {
+        Loading.OnChange -= OnLoadingChanged;
+    }
+}

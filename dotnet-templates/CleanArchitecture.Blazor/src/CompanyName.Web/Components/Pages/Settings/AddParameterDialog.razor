@@ -1,0 +1,71 @@
+@using Radzen
+@using Radzen.Blazor
+@inherits AppComponentBase<GlParameterDescDto>
+@inject DialogService DialogService
+
+<RadzenTemplateForm Data="@Model" Submit="@(async (GlParameterDescDto _) => await Submit())">
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <RadzenLabel Text="@L.GetLangValue("lbl_col_description")" />
+        </div>
+        <div class="col-md-8">
+            <RadzenTextBox style="width: 100%;" Name="ParameterDescription" @bind-Value="Model.ParameterDescription" />
+            <RadzenRequiredValidator Component="ParameterDescription" Text="@L.GetLangValue("lbl_req_description")" />
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <RadzenLabel Text="@L.GetLangValue("lbl_col_sort")" />
+        </div>
+        <div class="col-md-8">
+            <RadzenNumeric style="width: 100%;" Name="Sort" @bind-Value="Model.Sort" />
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5>@L.GetLangValue("lbl_child_params_title")</h5>
+        <RadzenButton Icon="add" Text="@L.GetLangValue("lbl_btn_add_child")" ButtonStyle="ButtonStyle.Secondary" Click="@AddChildParameter" />
+    </div>
+
+    <!-- DataGrid for entering child parameter values temporarily in memory -->
+    <RadzenDataGrid @ref="childGrid" Data="@childParams" TItem="GlParameterDto" AllowSorting="false" AllowFiltering="false" AllowPaging="false">
+        <Columns>
+            <RadzenDataGridColumn TItem="GlParameterDto" Property="ParameterId" Title="@L.GetLangValue("lbl_col_param_id")">
+                <Template Context="child">
+                    <RadzenTextBox @bind-Value="child.ParameterId" style="width:100%" />
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="GlParameterDto" Property="ParameterDescription" Title="@L.GetLangValue("lbl_col_description")">
+                <Template Context="child">
+                    <RadzenTextBox @bind-Value="child.ParameterDescription" style="width:100%" />
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="GlParameterDto" Property="ParameterDescriptionEn" Title="@L.GetLangValue("lbl_col_desc_en")">
+                <Template Context="child">
+                    <RadzenTextBox @bind-Value="child.ParameterDescriptionEn" style="width:100%" />
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="GlParameterDto" Property="Sort" Title="@L.GetLangValue("lbl_col_sort")" Width="100px">
+                <Template Context="child">
+                    <RadzenNumeric @bind-Value="child.Sort" style="width:100%" />
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="GlParameterDto" Title="Actions" Width="80px" TextAlign="TextAlign.Center">
+                <Template Context="child">
+                    <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" Variant="Variant.Flat" Size="ButtonSize.Small"
+                                  Click="@(args => RemoveChildParameter(child))" />
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+
+    <div class="row mt-4">
+        <div class="col-md-12 text-end">
+            <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="@L.GetLangValue("lbl_btn_save")" ButtonStyle="ButtonStyle.Primary" class="me-2" />
+            <RadzenButton ButtonType="ButtonType.Button" Icon="cancel" Text="@L.GetLangValue("lbl_btn_cancel")" ButtonStyle="ButtonStyle.Light" Click="@Cancel" />
+        </div>
+    </div>
+</RadzenTemplateForm>

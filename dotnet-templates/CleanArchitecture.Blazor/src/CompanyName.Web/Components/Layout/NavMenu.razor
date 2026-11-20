@@ -1,0 +1,46 @@
+@namespace CompanyName.Web.Components.Layout
+@inherits CompanyName.Web.Components.AppComponentBase<CompanyName.Domain.Entities.GlPortalMenu>
+@implements IDisposable
+
+<div class="nav-menu">
+    <RadzenStack AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Center" class="nav-menu__brand rz-p-3">
+        <a href="/dashboard" class="nav-menu__brand-link" data-enhance-nav="false">
+            <img src="/images/logo.png" alt="@L.GetLangValue("lbl_app_logo_alt")" class="nav-menu__logo" />
+        </a>
+    </RadzenStack>
+
+    <RadzenPanelMenu>
+        @if (MenuItems != null)
+        {
+            @foreach (var menu in MenuItems.Where(m => m.ParentId == null || m.ParentId == 0).OrderBy(m => m.OrderNo))
+            {
+                var children = MenuItems.Where(m => m.ParentId == menu.Id).OrderBy(m => m.OrderNo).ToList();
+
+                @if (children.Count > 0)
+                {
+                    <RadzenPanelMenuItem Text="@GetMenuLabel(menu)" Icon="@GetMenuIcon(menu.Icon)">
+                        @foreach (var child in children)
+                        {
+                            @if (string.IsNullOrWhiteSpace(child.MenuUrl))
+                            {
+                                <RadzenPanelMenuItem Text="@GetMenuLabel(child)" Icon="@GetMenuIcon(child.Icon)" Disabled="true" />
+                            }
+                            else
+                            {
+                                <RadzenPanelMenuItem Text="@GetMenuLabel(child)" Icon="@GetMenuIcon(child.Icon)" Path="@child.MenuUrl" />
+                            }
+                        }
+                    </RadzenPanelMenuItem>
+                }
+                else if (string.IsNullOrWhiteSpace(menu.MenuUrl))
+                {
+                    <RadzenPanelMenuItem Text="@GetMenuLabel(menu)" Icon="@GetMenuIcon(menu.Icon)" Disabled="true" />
+                }
+                else
+                {
+                    <RadzenPanelMenuItem Text="@GetMenuLabel(menu)" Icon="@GetMenuIcon(menu.Icon)" Path="@menu.MenuUrl" />
+                }
+            }
+        }
+    </RadzenPanelMenu>
+</div>

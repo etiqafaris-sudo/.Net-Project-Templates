@@ -1,0 +1,5 @@
+<Project>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)build\IsExternalInit.cs" Link="Polyfills\IsExternalInit.cs" />
+  </ItemGroup>
+</Project>

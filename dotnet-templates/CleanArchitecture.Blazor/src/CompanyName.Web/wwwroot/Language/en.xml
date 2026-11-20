@@ -1,0 +1,129 @@
+<languages>
+    <text key="lbl_app_name">Company Name</text>
+    <text key="lbl_app_logo_alt">Application logo</text>
+    <text key="lbl_title">Welcome</text>
+    <text key="lbl_sub_title">Sign in to your account</text>
+    <text key="lbl_loading">Loading…</text>
+    <text key="lbl_login_loading">Loading sign in…</text>
+    <text key="lbl_login_redirecting">Redirecting to your account…</text>
+    <text key="lbl_redirecting_to_signin">Redirecting to sign in…</text>
+    <text key="lbl_logging_out">Signing out…</text>
+    <text key="lbl_deleting">deleting</text>
+    <text key="lbl_email">Email</text>
+	<text key="lbl_placholder_email">Enter your email</text>
+    <text key="lbl_password">Password</text>
+	<text key="lbl_placholder_password">Enter your password</text>
+    <text key="lbl_forgot_password">Forgot Password?</text>
+    <text key="lbl_signin">Sign In</text>
+    <text key="lbl_myidentity">Sign in with My Digital ID</text>
+    <text key="lbl_noaccount">Don't have an account?</text>
+    <text key="lbl_signup">Sign Up</text>
+    <text key="lbl_dropdown_select">--Please Select--</text>
+	<text key="lbl_yes">Yes</text>
+	<text key="lbl_cancel">Cancel</text>
+
+    <!-- General Actions & Alerts -->
+    <text key="lbl_confirm_delete">Are you sure you want to delete this record?</text>
+    <text key="lbl_confirm_delete_title">Confirm Deletion</text>
+    <text key="lbl_action_success">Action completely successfully!</text>
+    <text key="lbl_btn_activate">Activate</text>
+    <text key="lbl_btn_deactivate">Deactivate</text>
+    <text key="lbl_confirm_activate">Are you sure you want to activate this user?</text>
+    <text key="lbl_confirm_deactivate">Are you sure you want to deactivate this user?</text>
+    <text key="lbl_confirm_status_title">Confirm Status Change</text>
+    <text key="lbl_search">Search...</text>
+    <text key="lbl_paging_summary">Displaying page {0} of {1} (total {2} records)</text>
+    
+    <!-- Navigation Menu -->
+    <text key="lbl_nav_dashboard">Dashboard</text>
+    <text key="lbl_nav_application">Application</text>
+    <text key="lbl_nav_report">Report</text>
+    <text key="lbl_nav_settings">Settings</text>
+    <text key="lbl_nav_users">Users</text>
+    <text key="lbl_nav_parameters">Parameters</text>
+    <text key="lbl_settings">Settings</text>
+    <text key="lbl_update_profile">Update Profile</text>
+    <text key="lbl_logout">Logout</text>
+    <text key="lbl_language">Language</text>
+    <text key="lbl_theme">Theme</text>
+    <text key="lbl_light_mode">Light Mode</text>
+    <text key="lbl_dark_mode">Dark Mode</text>
+
+    <!-- Pages content -->
+    <text key="lbl_welcome_dashboard">Welcome to the Dashboard!</text>
+    <text key="lbl_application_content">Application content goes here.</text>
+    <text key="lbl_step_basic_info">Basic Information</text>
+    <text key="lbl_step_applicant_details">Applicant's Details</text>
+    <text key="lbl_step_business_details">Business Details</text>
+    <text key="lbl_step_product_details">Product Details</text>
+    <text key="lbl_step_documents_required">Documents Required</text>
+    <text key="lbl_report_content">Report content goes here.</text>
+    <text key="lbl_parameters_content">System parameters content goes here.</text>
+
+    <!-- Users Page -->
+    <text key="lbl_btn_add_user">Add User</text>
+    <text key="lbl_col_id">ID</text>
+    <text key="lbl_col_fullname">Full Name</text>
+    <text key="lbl_col_role">Role</text>
+    <text key="lbl_col_active">Active</text>
+    <text key="lbl_role_super_admin">Super Admin</text>
+    <text key="lbl_role_admin">Admin</text>
+    <text key="lbl_role_user">User</text>
+    <text key="lbl_active_yes">Yes</text>
+    <text key="lbl_active_no">No</text>
+
+    <!-- Parameters Page & Dialog -->
+    <text key="lbl_btn_add_parameter">Add Parameter</text>
+    <text key="lbl_col_type_id">Type ID</text>
+    <text key="lbl_col_param_id">Parameter ID</text>
+    <text key="lbl_col_description">Description</text>
+    <text key="lbl_col_desc_en">Description (EN)</text>
+    <text key="lbl_col_sort">Sort Order</text>
+    <text key="lbl_req_param_id">Parameter ID is required</text>
+    <text key="lbl_req_description">Description is required</text>
+    <text key="lbl_child_params_title">Child Parameters</text>
+    <text key="lbl_btn_add_child">Add Child</text>
+    
+    <!-- Add User Dialog -->
+    <text key="lbl_req_fullname">Full Name is required</text>
+    <text key="lbl_req_email">Email is required</text>
+    <text key="lbl_invalid_email">Invalid email address</text>
+    <text key="lbl_req_password">Password is required</text>
+    <text key="lbl_btn_save">Save</text>
+    <text key="lbl_btn_cancel">Cancel</text>
+	<text key="lbl_update_success">Record Updated Successfully</text>
+	<text key="lbl_update_error">Record Update Failed</text>
+	<text key="lbl_create_success">Record Saved Successfully</text>
+	<text key="lbl_create_error">Record Save Failed</text>
+	<text key="lbl_delete_success">Record Deleted Successfully</text>
+	<text key="lbl_delete_error">Record Delete Failed</text>
+
+    <!-- Attachments -->
+    <text key="lbl_attachments_title">Attachments</text>
+    <text key="lbl_btn_upload_attachment">Upload File</text>
+    <text key="lbl_attachment_save_parent_first">Save the record first to upload attachments.</text>
+    <text key="lbl_col_doc_name">Document Name</text>
+    <text key="lbl_col_doc_type">Document Type</text>
+    <text key="lbl_col_actions">Actions</text>
+    <text key="lbl_btn_download">Download</text>
+    <text key="lbl_btn_delete">Delete</text>
+    <text key="lbl_attachment_count_title">Number of attachments</text>
+    <text key="lbl_attachment_uploading">Uploading file</text>
+    <text key="lbl_attachment_upload_zone_title">Upload supporting documents</text>
+    <text key="lbl_attachment_upload_hint">Use Upload or Choose File to attach documents to this record.</text>
+    <text key="lbl_attachment_max_size">Maximum file size: {0} MB</text>
+    <text key="lbl_attachment_choose_file">Choose File</text>
+    <text key="lbl_attachment_empty">No attachments yet. Upload a file to get started.</text>
+    <text key="lbl_sample_attachments_heading">Attachment upload example</text>
+    <text key="lbl_sample_attachments_hint">Select a sample user below. Uploaded files are stored against that user's Id as app_doc_id.</text>
+    <text key="lbl_sample_attachments_record">Parent record (sample user)</text>
+    <text key="lbl_sample_loading_page_title">Loading indicators</text>
+    <text key="lbl_sample_loading_page_subtitle">Preview AppLoadingIndicator and AppLoadingPage. Customize spinners via AppLoadingIndicator.razor and CSS variables in app.css.</text>
+    <text key="lbl_sample_loading_sizes">Centered sizes</text>
+    <text key="lbl_sample_loading_inline">Inline (toolbar / button row)</text>
+    <text key="lbl_sample_loading_page_layout">Full-page layout (AppLoadingPage)</text>
+    <text key="lbl_sample_loading_simulated">Simulated async load</text>
+    <text key="lbl_sample_loading_simulate_btn">Run 2s load</text>
+    <text key="lbl_sample_loading_simulate_done">Complete</text>
+    <text key="lbl_sample_loading_simulate_result">Content loaded. Replace this area with your page content after await.</text>
+</languages>

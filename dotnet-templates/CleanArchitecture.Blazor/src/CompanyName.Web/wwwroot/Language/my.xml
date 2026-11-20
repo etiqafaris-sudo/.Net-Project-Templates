@@ -1,0 +1,129 @@
+<languages>
+    <text key="lbl_app_name">Company Name</text>
+    <text key="lbl_app_logo_alt">Logo aplikasi</text>
+    <text key="lbl_title">Selamat datang</text>
+    <text key="lbl_sub_title">Log masuk ke akaun anda</text>
+    <text key="lbl_loading">Memuatkan…</text>
+    <text key="lbl_login_loading">Memuatkan log masuk…</text>
+    <text key="lbl_login_redirecting">Mengalihkan ke akaun anda…</text>
+    <text key="lbl_redirecting_to_signin">Mengalihkan ke log masuk…</text>
+    <text key="lbl_logging_out">Mendaftar keluar…</text>
+    <text key="lbl_deleting">sedang dihapuskan</text>
+    <text key="lbl_email">Emel</text>
+	<text key="lbl_placholder_email">Masukkan emel</text>
+    <text key="lbl_password">Kata Laluan</text>
+	<text key="lbl_placholder_password">Masukkan kata laluan</text>
+    <text key="lbl_forgot_password">Lupa Kata Laluan?</text>
+    <text key="lbl_signin">Log Masuk</text>
+    <text key="lbl_myidentity">Log Masuk dengan My Digital ID</text>
+    <text key="lbl_noaccount">Tiada akaun?</text>
+    <text key="lbl_signup">Daftar</text>
+    <text key="lbl_dropdown_select">--Sila Pilih--</text>
+	<text key="lbl_yes">Ya</text>
+	<text key="lbl_cancel">Batal</text>
+
+    <!-- General Actions & Alerts -->
+    <text key="lbl_confirm_delete">Adakah anda pasti mahu memadam rekod ini?</text>
+    <text key="lbl_confirm_delete_title">Sahkan Pemadaman</text>
+    <text key="lbl_action_success">Tindakan berjaya diselesaikan!</text>
+    <text key="lbl_btn_activate">Aktifkan</text>
+    <text key="lbl_btn_deactivate">Nyahaktifkan</text>
+    <text key="lbl_confirm_activate">Adakah anda pasti mahu mengaktifkan pengguna ini?</text>
+    <text key="lbl_confirm_deactivate">Adakah anda pasti mahu menyahaktifkan pengguna ini?</text>
+    <text key="lbl_confirm_status_title">Sahkan Perubahan Status</text>
+    <text key="lbl_search">Carian...</text>
+    <text key="lbl_paging_summary">Memaparkan halaman {0} daripada {1} (jumlah {2} rekod)</text>
+    
+    <!-- Navigation Menu -->
+    <text key="lbl_nav_dashboard">Papan Pemuka</text>
+    <text key="lbl_nav_application">Permohonan</text>
+    <text key="lbl_nav_report">Laporan</text>
+    <text key="lbl_nav_settings">Tetapan</text>
+    <text key="lbl_nav_users">Pengguna</text>
+    <text key="lbl_nav_parameters">Parameter</text>
+    <text key="lbl_settings">Tetapan</text>
+    <text key="lbl_update_profile">Kemaskini Profil</text>
+    <text key="lbl_logout">Log Keluar</text>
+    <text key="lbl_language">Bahasa</text>
+    <text key="lbl_theme">Tema</text>
+    <text key="lbl_light_mode">Mod Terang</text>
+    <text key="lbl_dark_mode">Mod Gelap</text>
+
+    <!-- Pages content -->
+    <text key="lbl_welcome_dashboard">Selamat datang ke Papan Pemuka!</text>
+    <text key="lbl_application_content">Kandungan permohonan di sini.</text>
+    <text key="lbl_step_basic_info">Maklumat Asas</text>
+    <text key="lbl_step_applicant_details">Butiran Pemohon</text>
+    <text key="lbl_step_business_details">Butiran Perniagaan</text>
+    <text key="lbl_step_product_details">Butiran Produk</text>
+    <text key="lbl_step_documents_required">Dokumen yang Diperlukan</text>
+    <text key="lbl_report_content">Kandungan laporan di sini.</text>
+    <text key="lbl_parameters_content">Kandungan parameter sistem di sini.</text>
+
+    <!-- Users Page -->
+    <text key="lbl_btn_add_user">Tambah Pengguna</text>
+    <text key="lbl_col_id">ID</text>
+    <text key="lbl_col_fullname">Nama Penuh</text>
+    <text key="lbl_col_role">Peranan</text>
+    <text key="lbl_col_active">Aktif</text>
+    <text key="lbl_role_super_admin">Pentadbir Super</text>
+    <text key="lbl_role_admin">Pentadbir</text>
+    <text key="lbl_role_user">Pengguna</text>
+    <text key="lbl_active_yes">Ya</text>
+    <text key="lbl_active_no">Tidak</text>
+
+    <!-- Parameters Page & Dialog -->
+    <text key="lbl_btn_add_parameter">Tambah Parameter</text>
+    <text key="lbl_col_type_id">ID Jenis</text>
+    <text key="lbl_col_param_id">ID Parameter</text>
+    <text key="lbl_col_description">Penerangan</text>
+    <text key="lbl_col_desc_en">Penerangan (EN)</text>
+    <text key="lbl_col_sort">Susunan</text>
+    <text key="lbl_req_param_id">ID Parameter diperlukan</text>
+    <text key="lbl_req_description">Penerangan diperlukan</text>
+    <text key="lbl_child_params_title">Parameter Anak</text>
+    <text key="lbl_btn_add_child">Tambah Anak</text>
+    
+    <!-- Add User Dialog -->
+    <text key="lbl_req_fullname">Nama Penuh diperlukan</text>
+    <text key="lbl_req_email">Emel diperlukan</text>
+    <text key="lbl_invalid_email">Alamat emel tidak sah</text>
+    <text key="lbl_req_password">Kata Laluan diperlukan</text>
+    <text key="lbl_btn_save">Simpan</text>
+    <text key="lbl_btn_cancel">Batal</text>
+	<text key="lbl_update_success">Rekod Berjaya Dikemaskini</text>
+	<text key="lbl_update_error">Rekod Gagal Dikemaskini</text>
+	<text key="lbl_create_success">Rekod Berjaya Ditambah</text>
+	<text key="lbl_create_error">Rekod Gagal Ditambah</text>
+	<text key="lbl_delete_success">Rekod Berjaya Dipadam</text>
+	<text key="lbl_delete_error">Rekod Gagal Dipadam</text>
+
+    <!-- Attachments -->
+    <text key="lbl_attachments_title">Lampiran</text>
+    <text key="lbl_btn_upload_attachment">Muat Naik Fail</text>
+    <text key="lbl_attachment_save_parent_first">Simpan rekod terlebih dahulu untuk memuat naik lampiran.</text>
+    <text key="lbl_col_doc_name">Nama Dokumen</text>
+    <text key="lbl_col_doc_type">Jenis Dokumen</text>
+    <text key="lbl_col_actions">Tindakan</text>
+    <text key="lbl_btn_download">Muat Turun</text>
+    <text key="lbl_btn_delete">Padam</text>
+    <text key="lbl_attachment_count_title">Bilangan lampiran</text>
+    <text key="lbl_attachment_uploading">Memuat naik fail</text>
+    <text key="lbl_attachment_upload_zone_title">Muat naik dokumen sokongan</text>
+    <text key="lbl_attachment_upload_hint">Gunakan Muat Naik atau Pilih Fail untuk melampirkan dokumen pada rekod ini.</text>
+    <text key="lbl_attachment_max_size">Saiz fail maksimum: {0} MB</text>
+    <text key="lbl_attachment_choose_file">Pilih Fail</text>
+    <text key="lbl_attachment_empty">Tiada lampiran lagi. Muat naik fail untuk bermula.</text>
+    <text key="lbl_sample_attachments_heading">Contoh muat naik lampiran</text>
+    <text key="lbl_sample_attachments_hint">Pilih pengguna contoh di bawah. Fail dimuat naik menggunakan Id pengguna sebagai app_doc_id.</text>
+    <text key="lbl_sample_attachments_record">Rekod induk (pengguna contoh)</text>
+    <text key="lbl_sample_loading_page_title">Penunjuk pemuatan</text>
+    <text key="lbl_sample_loading_page_subtitle">Pratonton AppLoadingIndicator dan AppLoadingPage. Sesuaikan spinner melalui AppLoadingIndicator.razor dan pembolehubah CSS dalam app.css.</text>
+    <text key="lbl_sample_loading_sizes">Saiz berpusat</text>
+    <text key="lbl_sample_loading_inline">Sebaris (bar alat / baris butang)</text>
+    <text key="lbl_sample_loading_page_layout">Susun atur halaman penuh (AppLoadingPage)</text>
+    <text key="lbl_sample_loading_simulated">Pemuatan async simulasi</text>
+    <text key="lbl_sample_loading_simulate_btn">Jalankan pemuatan 2s</text>
+    <text key="lbl_sample_loading_simulate_done">Selesai</text>
+    <text key="lbl_sample_loading_simulate_result">Kandungan dimuatkan. Gantikan kawasan ini dengan kandungan halaman anda selepas await.</text>
+</languages>

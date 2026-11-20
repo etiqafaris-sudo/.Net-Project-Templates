@@ -1,0 +1,68 @@
+@inherits LayoutComponentBase
+@using CompanyName.Web.Components.Layout
+@using CompanyName.Web.Services
+@inject AppThemeService ThemeState
+@inject XmlLocalizationService L
+@implements IDisposable
+
+<AuthorizeView>
+    <Authorized>
+        <RadzenTheme Theme="@ThemeState.CurrentTheme" />
+
+        <RadzenLayout class="main-layout">
+            <RadzenHeader>
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" class="main-layout__header w-100">
+                    <RadzenSidebarToggle Click="@(() => _sidebarExpanded = !_sidebarExpanded)" />
+                    <div class="main-layout__header-content">
+                        <TopMenu />
+                    </div>
+                </RadzenStack>
+            </RadzenHeader>
+
+            <RadzenSidebar @bind-Expanded="_sidebarExpanded">
+                <NavMenu />
+            </RadzenSidebar>
+
+            <RadzenBody>
+                <div class="main-layout__content rz-p-4">
+                    @Body
+                </div>
+            </RadzenBody>
+        </RadzenLayout>
+
+        <RadzenComponents />
+
+        <div id="blazor-error-ui" data-nosnippet>
+            An unhandled error has occurred.
+            <a href="." class="reload">Reload</a>
+            <span class="dismiss">🗙</span>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <RedirectToLogin />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private bool _sidebarExpanded = true;
+
+    protected override void OnInitialized()
+    {
+        ThemeState.OnChange += StateHasChanged;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await ThemeState.InitializeAsync();
+            await L.InitializeAsync();
+            StateHasChanged();
+        }
+    }
+
+    public void Dispose()
+    {
+        ThemeState.OnChange -= StateHasChanged;
+    }
+}

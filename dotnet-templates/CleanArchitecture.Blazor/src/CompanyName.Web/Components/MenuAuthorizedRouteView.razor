@@ -1,0 +1,76 @@
+@using CompanyName.Application.Common
+@using CompanyName.Application.Common.Interfaces
+@inject IMenuAccessService MenuAccess
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager Navigation
+@implements IDisposable
+
+@if (_checkComplete && _accessAllowed)
+{
+    <RouteView RouteData="@RouteData" DefaultLayout="@DefaultLayout" />
+    <FocusOnNavigate RouteData="@RouteData" Selector="h1" />
+}
+
+@code {
+    [Parameter]
+    public RouteData? RouteData { get; set; }
+
+    [Parameter]
+    public Type? DefaultLayout { get; set; }
+
+    private bool _checkComplete;
+    private bool _accessAllowed;
+    private readonly SemaphoreSlim _evaluationGate = new(1, 1);
+    private int _evaluationVersion;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _checkComplete = false;
+        var version = ++_evaluationVersion;
+        await EvaluateAccessAsync(version);
+    }
+
+    private async Task EvaluateAccessAsync(int version)
+    {
+        await _evaluationGate.WaitAsync();
+        try
+        {
+            if (version != _evaluationVersion)
+            {
+                return;
+            }
+
+            var path = Navigation.ToAbsoluteUri(Navigation.Uri).AbsolutePath;
+
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            if (version != _evaluationVersion)
+            {
+                return;
+            }
+
+            var accessAllowed = await MenuAccess.CanAccessPathAsync(authState.User, path);
+            if (version != _evaluationVersion)
+            {
+                return;
+            }
+
+            _accessAllowed = accessAllowed;
+            _checkComplete = true;
+
+            if (!_accessAllowed
+                && !MenuPathNormalizer.NormalizePath(path).Equals("/access-denied", StringComparison.Ordinal))
+            {
+                Navigation.NavigateTo("/access-denied", replace: true);
+            }
+        }
+        finally
+        {
+            _evaluationGate.Release();
+        }
+    }
+
+    public void Dispose()
+    {
+        _evaluationGate.Dispose();
+    }
+}

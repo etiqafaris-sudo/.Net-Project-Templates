@@ -1,0 +1,71 @@
+@page "/"
+@page "/login"
+@layout LoginLayout
+@inherits AppComponentBase<LoginDto>
+@using CompanyName.Web.Models.Login
+@using CompanyName.Web.Services
+@implements IDisposable
+
+<AntiforgeryToken />
+
+<RadzenCard class="login-card rz-p-5 rz-shadow-4">
+    <RadzenStack Gap="0.5rem" AlignItems="AlignItems.Center" class="rz-mb-5 rz-text-align-center">
+        <RadzenText TextStyle="TextStyle.H4" TagName="TagName.H1" class="rz-mb-0">
+            @L.GetLangValue("lbl_title")
+        </RadzenText>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.P" class="rz-text-secondary-color">
+            @L.GetLangValue("lbl_sub_title")
+        </RadzenText>
+    </RadzenStack>
+
+    <RadzenTemplateForm Data="@Model" Submit="@(async (LoginDto _) => await OnSubmit())">
+        <RadzenStack Gap="1.25rem" class="login-form">
+            <div>
+                <RadzenLabel Text="@L.GetLangValue("lbl_email")" Component="Email" class="rz-display-block rz-mb-1" />
+                <RadzenTextBox Name="Email"
+                               @bind-Value="Model.Email"
+                               Placeholder="@L.GetLangValue("lbl_placholder_email")"
+                               MaxLength="50"
+                               Style="width: 100%;" />
+                <RadzenRequiredValidator Component="Email"
+                                         Text="@L.GetLangValue("lbl_req_email")"
+                                         Style="display: block; font-size: 0.8rem; margin-top: 4px;" />
+            </div>
+
+            <div>
+                <RadzenLabel Text="@L.GetLangValue("lbl_password")" Component="Password" class="rz-display-block rz-mb-1" />
+                <RadzenPassword Name="Password"
+                                @bind-Value="Model.Password"
+                                Placeholder="@L.GetLangValue("lbl_placholder_password")"
+                                Style="width: 100%;" />
+                <RadzenRequiredValidator Component="Password"
+                                         Text="@L.GetLangValue("lbl_req_password")"
+                                         Style="display: block; font-size: 0.8rem; margin-top: 4px;" />
+            </div>
+
+            <div class="rz-text-align-end">
+                <RadzenLink Path="#"
+                            Text="@L.GetLangValue("lbl_forgot_password")"
+                            Click="@OnForgotPassword" />
+            </div>
+
+            <RadzenButton ButtonType="ButtonType.Submit"
+                          Text="@L.GetLangValue("lbl_signin")"
+                          ButtonStyle="ButtonStyle.Primary"
+                          Size="ButtonSize.Large"
+                          class="login-submit"
+                          Style="width: 100%;" />
+
+            <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.Body2" class="rz-mt-2">
+                @L.GetLangValue("lbl_noaccount")
+                <RadzenLink Path="#"
+                            Text="@L.GetLangValue("lbl_signup")"
+                            Click="@OnSignup"
+                            Style="font-weight: 600;" />
+            </RadzenText>
+        </RadzenStack>
+    </RadzenTemplateForm>
+</RadzenCard>
+
+@code {
+}

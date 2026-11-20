@@ -1,0 +1,135 @@
+@using Radzen
+@using Radzen.Blazor
+@inherits AppComponentBase<GlAttachmentDto>
+
+<div class="attachment-upload mb-3">
+    @if (AppDocId <= 0)
+    {
+        <RadzenAlert AlertStyle="AlertStyle.Info" Variant="Variant.Flat" Shade="Shade.Lighter" AllowClose="false" class="mb-0">
+            @L.GetLangValue("lbl_attachment_save_parent_first")
+        </RadzenAlert>
+    }
+    else
+    {
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+            <div class="d-flex align-items-center gap-2">
+                <h5 class="mb-0">@L.GetLangValue("lbl_attachments_title")</h5>
+                <RadzenBadge Text="@attachments.Count.ToString()"
+                             BadgeStyle="BadgeStyle.Info"
+                             Variant="Variant.Outlined"
+                             title="@L.GetLangValue("lbl_attachment_count_title")" />
+            </div>
+
+            @if (!ReadOnly)
+            {
+                <div class="d-flex align-items-center gap-2">
+                    @if (isUploading)
+                    {
+                        <AppLoadingIndicator MessageKey="lbl_attachment_uploading"
+                                             Size="AppLoadingSize.Small"
+                                             Centered="false"
+                                             ShowMessage="false" />
+                    }
+                    <InputFile id="@_fileInputId"
+                               class="attachment-upload-input"
+                               OnChange="@OnFileSelected"
+                               disabled="@isUploading" />
+                    <RadzenButton Icon="upload_file"
+                                  Text="@L.GetLangValue("lbl_btn_upload_attachment")"
+                                  ButtonStyle="ButtonStyle.Primary"
+                                  Disabled="@isUploading"
+                                  Click="@BrowseFilesAsync" />
+                </div>
+            }
+        </div>
+
+        @if (!ReadOnly)
+        {
+            <RadzenCard class="attachment-upload-dropzone rz-p-4 mb-3">
+                <div class="d-flex flex-column flex-md-row align-items-md-center gap-3">
+                    <div class="attachment-upload-icon d-flex align-items-center justify-content-center flex-shrink-0">
+                        <RadzenIcon Icon="cloud_upload" />
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold mb-1">@L.GetLangValue("lbl_attachment_upload_zone_title")</div>
+                        <div class="text-muted small mb-0">@L.GetLangValue("lbl_attachment_upload_hint")</div>
+                        <div class="text-muted small">@string.Format(L.GetLangValue("lbl_attachment_max_size"), MaxFileSizeMb)</div>
+                    </div>
+                    <RadzenButton Icon="attach_file"
+                                  Text="@L.GetLangValue("lbl_attachment_choose_file")"
+                                  ButtonStyle="ButtonStyle.Secondary"
+                                  Variant="Variant.Outlined"
+                                  Disabled="@isUploading"
+                                  Click="@BrowseFilesAsync"
+                                  class="flex-shrink-0" />
+                </div>
+                @if (!string.IsNullOrWhiteSpace(selectedFileName))
+                {
+                    <div class="attachment-upload-selected mt-3 pt-3 d-flex align-items-center gap-2 flex-wrap">
+                        <RadzenIcon Icon="description" />
+                        <span class="small text-truncate" style="max-width: 18rem;" title="@selectedFileName">@selectedFileName</span>
+                        @if (!string.IsNullOrWhiteSpace(selectedFileSizeLabel))
+                        {
+                            <RadzenBadge Text="@selectedFileSizeLabel" BadgeStyle="BadgeStyle.Light" />
+                        }
+                    </div>
+                }
+            </RadzenCard>
+        }
+
+        <RadzenDataGrid Data="@attachments"
+                        TItem="GlAttachmentDto"
+                        AllowFiltering="false"
+                        AllowPaging="true"
+                        PageSize="5"
+                        AllowSorting="false"
+                        ColumnWidth="200px"
+                        HidePagingIfTotalIsLessThenPageSize="true"
+                        ShowPagingSummary="true"
+                        PagingSummaryFormat="@L.GetLangValue("lbl_paging_summary")">
+            <EmptyTemplate>
+                <p class="text-muted text-center py-4 mb-0">@L.GetLangValue("lbl_attachment_empty")</p>
+            </EmptyTemplate>
+            <Columns>
+                <RadzenDataGridColumn TItem="GlAttachmentDto" Title="No." Width="70px" TextAlign="TextAlign.Center" Sortable="false">
+                    <Template Context="item">
+                        @(attachments.IndexOf(item) + 1)
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="GlAttachmentDto" Property="DocName" Title="@L.GetLangValue("lbl_col_doc_name")">
+                    <Template Context="item">
+                        <div class="d-flex align-items-center gap-2">
+                            <RadzenIcon Icon="@GetFileIcon(item)" class="text-muted" />
+                            <span class="text-truncate" title="@item.DocName">@item.DocName</span>
+                        </div>
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="GlAttachmentDto" Property="DocType" Title="@L.GetLangValue("lbl_col_doc_type")" Width="160px" />
+                <RadzenDataGridColumn TItem="GlAttachmentDto" Title="@L.GetLangValue("lbl_col_actions")" Width="160px" TextAlign="TextAlign.Center" Sortable="false">
+                    <Template Context="item">
+                        @if (!string.IsNullOrWhiteSpace(item.DocPath))
+                        {
+                            <RadzenButton Icon="download"
+                                          ButtonStyle="ButtonStyle.Light"
+                                          Variant="Variant.Flat"
+                                          Size="ButtonSize.Medium"
+                                          Click="@(_ => OpenDownload(item))"
+                                          title="@L.GetLangValue("lbl_btn_download")"
+                                          class="mx-1" />
+                        }
+                        @if (!ReadOnly)
+                        {
+                            <RadzenButton Icon="delete"
+                                          ButtonStyle="ButtonStyle.Danger"
+                                          Variant="Variant.Flat"
+                                          Size="ButtonSize.Medium"
+                                          Click="@(_ => DeleteAttachmentAsync(item))"
+                                          title="@L.GetLangValue("lbl_btn_delete")"
+                                          class="mx-1" />
+                        }
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    }
+</div>
