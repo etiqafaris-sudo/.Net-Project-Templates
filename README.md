@@ -1,93 +1,70 @@
-# Project-Templates
+# .NET Project Templates
 
+Reusable [`dotnet new`](https://learn.microsoft.com/dotnet/core/tools/dotnet-new) project templates for Clean Architecture backends and Blazor apps. Source: [github.com/etiqafaris-sudo/.Net-Project-Templates](https://github.com/etiqafaris-sudo/.Net-Project-Templates).
 
+Shared design goals and layer rules are described in [ARCHITECTURE.md](./ARCHITECTURE.md).
 
-## Getting started
+## Repository layout
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+| Path | Template short name | Description |
+|------|---------------------|-------------|
+| [dotnet-templates/CleanArchiecture.WebApi.NetCore](./dotnet-templates/CleanArchiecture.WebApi.NetCore/) | `ant-ca-webapi` | .NET 10 Minimal API — CQRS (Mediator), EF Core, FluentValidation, Serilog, OpenTelemetry |
+| [dotnet-templates/CleanArchiecture.WebApi.NetF](./dotnet-templates/CleanArchiecture.WebApi.NetF/) | `ant-ca-webapi-netf` | ASP.NET Web API 2 on .NET Framework 4.8 / IIS — EF6, transactional outbox |
+| [dotnet-templates/CleanArchitecture.Blazor](./dotnet-templates/CleanArchitecture.Blazor/) | `ant-ca-blazor` | Blazor Server — Domain, Application, Infrastructure, Web |
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+Each folder has its own **README** with runbooks, health checks, and sample APIs.
 
-## Add your files
+## Clone
 
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
-
+```powershell
+git clone https://github.com/etiqafaris-sudo/.Net-Project-Templates.git
+cd .Net-Project-Templates
 ```
-cd existing_repo
-git remote add origin http://antmdm.ddns.net:9070/anthive-guild/helpers/project-templates.git
+
+To point an existing local repo at GitHub:
+
+```powershell
+git remote add origin https://github.com/etiqafaris-sudo/.Net-Project-Templates.git
 git branch -M main
-git push -uf origin main
+git push -u origin main
 ```
 
-## Integrate with your tools
+## Install templates
 
-* [Set up project integrations](http://antmdm.ddns.net:9070/anthive-guild/helpers/project-templates/-/settings/integrations)
+From the repository root (adjust the drive/path if you cloned elsewhere):
 
-## Collaborate with your team
+```powershell
+$root = (Get-Location).Path
 
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+dotnet new install "$root\dotnet-templates\CleanArchiecture.WebApi.NetCore"
+dotnet new install "$root\dotnet-templates\CleanArchiecture.WebApi.NetF"
+dotnet new install "$root\dotnet-templates\CleanArchitecture.Blazor"
+```
 
-## Test and Deploy
+Update after pulling changes:
 
-Use the built-in continuous integration in GitLab.
+```powershell
+dotnet new install "$root\dotnet-templates\CleanArchiecture.WebApi.NetCore" --force
+```
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
+## Create a new solution
 
-***
+Replace `AcmePortal` and the output path with your names:
 
-# Editing this README
+```powershell
+dotnet new ant-ca-webapi      -n AcmePortal -o C:\work\AcmePortal
+dotnet new ant-ca-webapi-netf -n AcmePortal -o C:\work\AcmePortalNetF
+dotnet new ant-ca-blazor      -n AcmePortal -o C:\work\AcmePortalBlazor
+```
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+The `-n` value replaces the `CompanyName` placeholder in projects, namespaces, and the SQL catalog name (`TemplateDatabase`); dots in the name are removed for database and `DbContext` types.
 
-## Suggestions for a good README
+## Prerequisites
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+- [.NET 10 SDK](https://dotnet.microsoft.com/download) (NetCore and Blazor templates)
+- .NET Framework 4.8 Developer Pack and Visual Studio 2022 with the ASP.NET workload (NetF template)
+- Docker (optional) for local SQL Server via each template’s `docker-compose.yml`
 
 ## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Open issues or pull requests on [GitHub](https://github.com/etiqafaris-sudo/.Net-Project-Templates/issues).
