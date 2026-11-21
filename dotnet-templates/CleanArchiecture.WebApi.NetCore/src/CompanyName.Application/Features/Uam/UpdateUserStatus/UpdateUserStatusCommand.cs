@@ -20,7 +20,7 @@ public sealed class UpdateUserStatusCommandValidator : AbstractValidator<UpdateU
     }
 }
 
-internal sealed class UpdateUserStatusCommandHandler(IApplicationDbContext context, IOutbox outbox)
+internal sealed class UpdateUserStatusCommandHandler(IApplicationDbContext context)
     : IRequestHandler<UpdateUserStatusCommand, Result>
 {
     public async ValueTask<Result> Handle(UpdateUserStatusCommand request, CancellationToken cancellationToken)
@@ -34,8 +34,7 @@ internal sealed class UpdateUserStatusCommandHandler(IApplicationDbContext conte
         }
 
         context.MarkRowVersion(user, request.RowVersion);
-        user.Status = request.Status;
-        outbox.Enqueue(new UpdatedUserStatusEvent(user.Id));
+        user.ChangeStatus(request.Status);
         try
         {
             await context.SaveChangesAsync(cancellationToken);

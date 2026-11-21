@@ -83,11 +83,11 @@ Add a new use case by implementing `IEndpoint` under `Endpoints/<Feature>/`; it 
 
 ## Transactional outbox
 
-The template uses a simple [transactional outbox](https://milanjovanovic.tech/blog/implementing-the-outbox-pattern): command handlers enqueue `INotification` messages via `IOutbox` before `SaveChangesAsync`, so business data and outbox rows commit in one transaction. `OutboxProcessorBackgroundService` polls `outbox_messages`, deserializes each message, and publishes it through Mediator (at-least-once delivery—handlers should be idempotent).
+The template uses the [transactional outbox with EF Core interceptors](https://milanjovanovic.tech/blog/how-to-use-ef-core-interceptors): aggregates inherit `Entity`, raise `IDomainEvent` instances from domain methods, and `InsertOutboxMessagesInterceptor` collects those events from the change tracker during `SaveChanges` and persists them to `outbox_messages` in the same transaction. `OutboxProcessorBackgroundService` polls the outbox and publishes events through Mediator `IPublisher` (at-least-once delivery—handlers should be idempotent).
 
-Configure polling in `appsettings.json` under `Outbox` (`PollingIntervalSeconds`, `BatchSize`, `LockDurationSeconds`, `RetryDelaySeconds`, `MaxRetryAttempts`). The worker claims rows with SQL Server `UPDLOCK`/`READPAST` so multiple API instances do not process the same message concurrently. Failed messages are retried until `MaxRetryAttempts`, then dead-lettered (`ProcessedOnUtc` set with `Error`). Sample flow: `CreateStaffCommand` enqueues `StaffCreatedEvent`; the background worker delivers it to `StaffCreatedEventHandler` (handlers should still be idempotent for at-least-once delivery).
+Configure polling in `appsettings.json` under `Outbox` (`PollingIntervalSeconds`, `BatchSize`, `LockDurationSeconds`, `RetryDelaySeconds`, `MaxRetryAttempts`). The worker claims rows with SQL Server `UPDLOCK`/`READPAST` so multiple API instances do not process the same message concurrently. Failed messages are retried until `MaxRetryAttempts`, then dead-lettered (`ProcessedOnUtc` set with `Error`). Sample flow: `User.Create` raises `StaffCreatedEvent`; after commit, the background worker delivers it to `StaffCreatedEventHandler`.
 
-When you add a new outbox notification type, register it in `Infrastructure/Outbox/OutboxMessageTypeRegistry.cs` and add the type to `Infrastructure/Outbox/OutboxJsonContext.cs` for source-generated JSON serialization.
+When you add a new domain event, define it under `Domain/Events` (implementing `IDomainEvent`) and raise it from the aggregate. The outbox discovers event types from the Domain assembly automatically.
 
 ## EF Core migrations
 

@@ -1,6 +1,5 @@
 using CompanyName.Application.Common.Interfaces;
 using CompanyName.Domain.Entities;
-using CompanyName.Domain.Enums;
 using CompanyName.Shared;
 using FluentValidation;
 using Mediator;
@@ -19,7 +18,7 @@ public sealed class CreateStaffCommandValidator : AbstractValidator<CreateStaffC
     }
 }
 
-internal sealed class CreateStaffCommandHandler(IApplicationDbContext context, IOutbox outbox)
+internal sealed class CreateStaffCommandHandler(IApplicationDbContext context)
     : IRequestHandler<CreateStaffCommand, Result<int>>
 {
     public async ValueTask<Result<int>> Handle(CreateStaffCommand request, CancellationToken cancellationToken)
@@ -34,15 +33,8 @@ internal sealed class CreateStaffCommandHandler(IApplicationDbContext context, I
             return Result.Failure<int>("A user with this email already exists.");
         }
 
-        var user = new User
-        {
-            Email = normalizedEmail,
-            FullName = request.FullName.Trim(),
-            Status = UserStatus.Active,
-        };
-
+        var user = User.Create(normalizedEmail, request.FullName.Trim());
         context.Users.Add(user);
-        outbox.Enqueue(new StaffCreatedEvent(user.Id, user.Email, user.FullName));
         await context.SaveChangesAsync(cancellationToken);
 
         return Result.Success(user.Id);

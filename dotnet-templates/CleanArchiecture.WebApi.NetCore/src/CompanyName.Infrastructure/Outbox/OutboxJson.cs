@@ -4,5 +4,8 @@ namespace CompanyName.Infrastructure.Outbox;
 
 internal static class OutboxJson
 {
-    public static JsonSerializerOptions SerializerOptions => OutboxJsonContext.Default.Options;
+    public static JsonSerializerOptions SerializerOptions { get; } = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    };
 }

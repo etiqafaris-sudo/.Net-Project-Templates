@@ -1,6 +1,6 @@
 namespace CompanyName.Domain.Common;
 
-public abstract class AuditableEntity : IAuditable
+public abstract class AuditableEntity : Entity, IAuditable
 {
     public DateTime CreatedAtUtc { get; set; }
     public DateTime? ModifiedAtUtc { get; set; }

@@ -42,7 +42,7 @@ internal sealed class OutboxProcessorBackgroundService(
     {
         await using var scope = scopeFactory.CreateAsyncScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<TemplateDbContext>();
-        var publisher = scope.ServiceProvider.GetRequiredService<IMediator>();
+        var publisher = scope.ServiceProvider.GetRequiredService<IPublisher>();
 
         var opts = options.Value;
         var batchSize = Math.Max(1, opts.BatchSize);
@@ -84,12 +84,12 @@ internal sealed class OutboxProcessorBackgroundService(
         {
             try
             {
-                var messageType = OutboxMessageTypeRegistry.Resolve(message.Type);
+                var messageType = OutboxDomainEventTypes.Resolve(message.Type);
 
                 var deserialized = JsonSerializer.Deserialize(message.Content, messageType, OutboxJson.SerializerOptions)
                     ?? throw new InvalidOperationException($"Failed to deserialize outbox message {message.Id}.");
 
-                await MediatorNotificationPublisher.PublishAsync(publisher, deserialized, cancellationToken);
+                await publisher.Publish(deserialized, cancellationToken);
 
                 message.ProcessedOnUtc = DateTime.UtcNow;
                 message.Error = null;

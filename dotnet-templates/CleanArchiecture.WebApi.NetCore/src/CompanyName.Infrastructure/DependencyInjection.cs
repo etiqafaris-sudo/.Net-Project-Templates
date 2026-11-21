@@ -15,6 +15,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<AuditableEntityInterceptor>();
+        services.AddSingleton<InsertOutboxMessagesInterceptor>();
 
         //faris : pakai utk connection pooling, utk readonly
         //var poolSize = configuration.GetValue("Database:DbContextPoolSize", 128);
@@ -35,13 +36,14 @@ public static class DependencyInjection
                             maxRetryDelay: TimeSpan.FromSeconds(30),
                             errorNumbersToAdd: null);
                     });
-                options.AddInterceptors(sp.GetRequiredService<AuditableEntityInterceptor>());
+                options.AddInterceptors(
+                    sp.GetRequiredService<AuditableEntityInterceptor>(),
+                    sp.GetRequiredService<InsertOutboxMessagesInterceptor>());
             });
 
         services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<TemplateDbContext>());
 
         services.Configure<OutboxOptions>(configuration.GetSection(OutboxOptions.SectionName));
-        services.AddScoped<IOutbox, OutboxWriter>();
         services.AddHostedService<OutboxProcessorBackgroundService>();
 
         services.AddHealthChecks()

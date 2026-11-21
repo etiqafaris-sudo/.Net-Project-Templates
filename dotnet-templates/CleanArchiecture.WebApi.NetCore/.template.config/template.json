@@ -1,9 +1,9 @@
 {
   "$schema": "http://json.schemastore.org/template",
-  "author": "Faris",
+  "author": "PDRM",
   "classifications": [ "Web", "Web API", "Minimal API", "Clean Architecture", "EF Core" ],
   "identity": "CleanArchiecture.WebApi.NetCore",
-  "name": "Clean Architecture Web API (.NET) by Faris Jaafar",
+  "name": "Clean Architecture Web API (.NET) by AntHive",
   "shortName": "ant-ca-webapi",
   "sourceName": "CompanyName",
   "preferNameDirectory": true,
